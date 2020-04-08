@@ -1,0 +1,1 @@
+{"IndexDocument":{"Suffix":"index.html"},"RoutingRules":[{"Condition":{"KeyPrefixEquals":"v0/snap/foo"},"Redirect":{"ReplaceKeyPrefixWith":"/v0/snap/bar"}}]}
