@@ -10,15 +10,6 @@
 # curl http://raytest.rs.ring.com.s3-website-us-east-1.amazonaws.com/v0/snap/foo/ --verbose
 
 
-
-
-#reference_configuration_json="{\"IndexDocument\":{\"Suffix\":\"index.html\"},\"RoutingRules\":[{\"Condition\":{\"KeyPrefixEquals\":\"v0\/snap\/stable\/\"},\"Redirect\":{\"ReplaceKeyPrefixWith\":\"v0\/snap\/itworks\/\"}}]}"
-#testme="{\"IndexDocument\":{\"Suffix\":\"index.html\"},\"RoutingRules\":[{\"Condition\":{\"KeyPrefixEquals\":\"v0\/snap\/stable\/\"},\"Redirect\":{\"ReplaceKeyPrefixWith\":$redirect_dest}}]}"
-#path_to_redirect="\"v0\/snap\/stable\/\""
-#redirect_dest="\"v0\/snap\/itworks\/\""
-
-
-
 # arg parsing from https://stackoverflow.com/questions/192249/how-do-i-parse-command-line-arguments-in-bash
 POSITIONAL=()
 while [[ $# -gt 0 ]]
