@@ -1,0 +1,31 @@
+# Used to assign a label (like /snapshot/latest or /v0) to a published API
+# snapshot (like /snapshot/123).
+#
+name: Label API Snapshot.
+
+on:
+  # Hook to trigger a manual run.
+  # See: https://goobar.io/2019/12/07/manually-trigger-a-github-actions-workflow/
+  repository_dispatch:
+    types: label-api-snapshot
+
+jobs:
+  label-api-snapshot:
+    runs-on: ubuntu-latest
+
+    env:
+      AWS_S3_BUCKET: 'covidactnow-deleteme'
+      LABEL: '${{ github.event.client_payload.label }}'
+      SNAPSHOT_ID: '${{ github.event.client_payload.snapshot_id }}'
+
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v2
+    - name: Verify Label
+      if: ${{ !env.LABEL }}
+      run: 'echo "Missing client_payload parameter: label" || exit 1'
+    - name: Verify Snapshot ID
+      if: ${{ !env.SNAPSHOT_ID }}
+      run: 'echo "Missing client_payload parameter: snapshot_id" || exit 1'
+    - name: Create Label
+      run: echo "Creating label '${{env.LABEL}}' to '/snapshot/${{ env.SNAPSHOT_ID }}'"
