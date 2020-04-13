@@ -6,6 +6,8 @@ name: Label API Snapshot.
 on:
   # Hook to trigger a manual run.
   # See: https://goobar.io/2019/12/07/manually-trigger-a-github-actions-workflow/
+  repository_dispatch:
+    types: label-api-snapshot
 
   # To debug, uncomment the stanza below. Fill in your own branch name,
   # hardcode LABEL and SNAPSHOT_ID below, and then each push will trigger a run.
@@ -13,9 +15,6 @@ on:
   # push:
   #   branches:
   #   - mikelehen/label-api
-
-  repository_dispatch:
-    types: label-api-snapshot
 
 jobs:
   label-api-snapshot:
