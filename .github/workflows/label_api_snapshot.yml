@@ -22,7 +22,7 @@ jobs:
     env:
       AWS_S3_BUCKET: 'covidactnow-deleteme'
       LABEL: 'v0' #'${{ github.event.client_payload.label }}'
-      SNAPSHOT_ID: '5' #'${{ github.event.client_payload.snapshot_id }}'
+      SNAPSHOT_ID: '15' #'${{ github.event.client_payload.snapshot_id }}'
 
     steps:
     - name: Checkout repo
