@@ -28,52 +28,49 @@ jobs:
       SNAPSHOT_ID: ${{github.run_number}}
 
     steps:
-    - name: Override COVID_DATA_MODEL_REF
-      if: github.event.client_payload.branch != ''
-      run: export COVID_DATA_MODEL_REF="${{github.event.client_payload.branch}}"
     - name: Checkout covid-data-model
       uses: actions/checkout@v2
       with:
         repository: covid-projections/covid-data-model
         path: covid-data-model
         ref: '${{env.COVID_DATA_MODEL_REF}}'
-#    - name: Checkout covid-data-public
-#      uses: actions/checkout@v2
-#      with:
-#        repository: covid-projections/covid-data-public
-#        path: covid-data-public
-#        lfs: true
-#        ref: '${{env.COVID_DATA_PUBLIC_REF}}'
-#
-#    - name: Setup Python
-#      uses: actions/setup-python@v1
-#      with:
-#        python-version: '3.7.6'
-#        architecture: 'x64'
-#    - name: Cache Pip
-#      uses: actions/cache@v1
-#      with:
-#        path: ~/.cache/pip
-#        key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
-#        restore-keys: |
-#          ${{ runner.os }}-pip-
-#          ${{ runner.os }}-
-#    - name: Install Dependencies
-#      run: pip install -r covid-data-model/requirements.txt
-#
-#    - name: Build API Artifacts (run.sh)
-#      env:
-#        COVID_MODEL_CORES: 2
-#      run: ./covid-data-model/run.sh ./covid-data-public ./api_results
-#
-#    - name: Deploy Artifacts to S3 (https://data.covidactnow.org/snapshot/${{env.SNAPSHOT_ID}}/).
-#      uses: jakejarvis/s3-sync-action@master
-#      with:
-#        args: --acl public-read --follow-symlinks --delete
-#      env:
-#        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
-#        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-#        SOURCE_DIR: './api_results/'
-#        DEST_DIR: 'snapshot/${{env.SNAPSHOT_ID}}'
-#
-#      # TODO: Upload RedirectRules to AWS to make snapshot/latest pointer work.
+    - name: Checkout covid-data-public
+      uses: actions/checkout@v2
+      with:
+        repository: covid-projections/covid-data-public
+        path: covid-data-public
+        lfs: true
+        ref: '${{env.COVID_DATA_PUBLIC_REF}}'
+
+    - name: Setup Python
+      uses: actions/setup-python@v1
+      with:
+        python-version: '3.7.6'
+        architecture: 'x64'
+    - name: Cache Pip
+      uses: actions/cache@v1
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
+          ${{ runner.os }}-
+    - name: Install Dependencies
+      run: pip install -r covid-data-model/requirements.txt
+
+    - name: Build API Artifacts (run.sh)
+      env:
+        COVID_MODEL_CORES: 2
+      run: ./covid-data-model/run.sh ./covid-data-public ./api_results
+
+    - name: Deploy Artifacts to S3 (https://data.covidactnow.org/snapshot/${{env.SNAPSHOT_ID}}/).
+      uses: jakejarvis/s3-sync-action@master
+      with:
+        args: --acl public-read --follow-symlinks --delete
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        SOURCE_DIR: './api_results/'
+        DEST_DIR: 'snapshot/${{env.SNAPSHOT_ID}}'
+
+      # TODO: Upload RedirectRules to AWS to make snapshot/latest pointer work.
