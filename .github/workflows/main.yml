@@ -21,7 +21,8 @@ jobs:
       - name: Dump matrix context
         env:
           MATRIX_CONTEXT: ${{ toJson(matrix) }}
-        run: echo "$MATRIX_CONTEXT"
+          STATE: ${{ matrix.us-states }}
+        run: echo "$STATE"
 
   afterall:
     runs-on: ubuntu-latest
